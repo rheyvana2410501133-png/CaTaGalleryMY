@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaTa Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Music Control Button */
+        .music-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: rgba(90, 74, 66, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            background: rgba(90, 74, 66, 1);
+        }
+
+        .music-control:active {
+            transform: scale(0.95);
+        }
+
+        .music-icon {
+            color: #fff;
+            font-size: 24px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .music-control.playing .music-icon {
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @media (max-width: 768px) {
+            .music-control {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+            }
+            .music-icon {
+                font-size: 20px;
+            }
+        }
+
+        /* Hide all screens by default */
+        .screen {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .screen.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Purple tag color */
+        .tag.purple {
+            color: #b19cd9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Audio Element -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="sempurna.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung audio HTML5.
+    </audio>
+
+    <!-- Music Control Button -->
+    <div class="music-control" id="musicControl">
+        <span class="music-icon">🔇</span>
+    </div>
+
+    <div class="desktop-container">
+        <div class="phone-frame">
+            
+            <!-- ========== SPLASH SCREEN ========== -->
+            <div id="splash" class="screen active">
+                <div class="screen-title">Splash Screen</div>
+                <div class="splash-content">
+                    <div class="cata">
+                        <img src="images/cata.png" alt="cata">
+                    </div>
+                    <div class="welcome-text">
+                        <strong>Hello,</strong>
+                        welcome to CaTa gallery
+                    </div>
+                </div>
+                <button class="action-btn" onclick="startApp()">START</button>
+            </div>
+
+            <!-- ========== MENU SCREEN ========== -->
+            <div id="menu" class="screen">
+                <div class="screen-title">Main Menu</div>
+                <div class="menu-content">
+                    <a href="#" class="menu-button" onclick="showScreen('about-select'); return false;">ABOUT US</a>
+                    <a href="#" class="menu-button" onclick="showScreen('gallery'); return false;">OUR GALLERY</a>
+                    <a href="#" class="menu-button" onclick="showScreen('message'); return false;">A LITTLE MESSAGE</a>
+                </div>
+            </div>
+
+            <!-- ========== ABOUT SELECTION ========== -->
+            <div id="about-select" class="screen">
+                <div class="screen-title">About us</div>
+                <div class="about-selection">
+                    <a href="#" class="person-button" onclick="showScreen('about-aca'); return false;">ACA</a>
+                    <a href="#" class="person-button" onclick="showScreen('about-uta'); return false;">UTA</a>
+                </div>
+                <button class="action-btn" onclick="showScreen('menu')">BACK</button>
+            </div>
+
+            <!-- ========== ABOUT ACA ========== -->
+            <div id="about-aca" class="screen">
+                <div class="about-box">
+                    <div class="about-box-header">
+                        <span>CaTaGallery</span>
+                        <a href="#" onclick="showScreen('about-select'); return false;" class="close-x">×</a>
+                    </div>
+                    
+                    <div class="about-banner">
+                        <img src="images/decorate.png" alt="" class="decoration-left">
+                        <img src="images/panah.png" alt="" class="decoration-right">
+                        <h1>About Aca</h1>
+                    </div>
+                    
+                    <div class="about-tags-horizontal">
+                        <span class="tag">2007</span>
+                        <span class="tag-divider">|</span>
+                        <span class="tag pink">Pink</span>
+                        <span class="tag-divider">|</span>
+                        <span class="tag">Virgo</span>
+                    </div>
+                    
+                    <div class="about-content-box">
+                        <div class="about-layout">
+                            <div class="profile-pic-left">
+                                <img src="images/aca.jpeg" alt="Aca">
+                            </div>
+                            <div class="profile-text-right">
+                                Halo! Kenalin, aku Aca. Aku suka warna pink, suka vanilla, suka kucing, dan terutama… suka banget sama manusia bernama Uta.
+                            </div>
+                        </div>
+                        <div class="profile-text-full">
+                           Hidup aku simpel: lihat warna pink, happy. Lihat kucing, lebih happy. Lihat Uta? Nah itu level bahagianya beda lagi… langsung salting dulu hahahaha. Aku itu orangnya random bangetzzz. Kadang tiba-tiba ngambek, kadang yapping ngga jelas, dan kadang suka bengong mikirin hal-hal kurang penting, kayak 'kenapa ya Uta bisa lucu banget? Ganteng? Paket lengkap?' Terus aku juga suka mikir, 'kok bisa ya Uta sesabar itu ngadepin mood aku yang nggak jelas?' Hahaha. Makanya aku gampang meleleh kalau dia ngebujuk biar aku ngga ngambek lagi. Sebenernya aku ngga tau lagi mau ngetik apa, karena jujur aja… yang ada di otak aku cuma Uta, Uta, Uta! Yaudah deh, segitu dulu about Aca nya. Baiii semuanya ^_^
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="action-btn" onclick="showScreen('about-uta')">NEXT</button>
+            </div>
+
+            <!-- ========== ABOUT UTA ========== -->
+            <div id="about-uta" class="screen">
+                <div class="about-box">
+                    <div class="about-box-header">
+                        <span>CaTaGallery</span>
+                        <a href="#" onclick="showScreen('about-select'); return false;" class="close-x">×</a>
+                    </div>
+                    
+                    <div class="about-banner">
+                        <img src="images/star.png" alt="" class="decoration-left">
+                        <img src="images/art.png" alt="" class="decoration-right">
+                        <h1>About Uta</h1>
+                    </div>
+                    
+                    <div class="about-tags-horizontal">
+                        <span class="tag">2007</span>
+                        <span class="tag-divider">|</span>
+                        <span class="tag purple">Purple</span>
+                        <span class="tag-divider">|</span>
+                        <span class="tag">Taurus</span>
+                    </div>
+                    
+                    <div class="about-content-box">
+                        <div class="about-layout">
+                            <div class="profile-pic-left">
+                                <img src="images/uta.jpeg" alt="Uta">
+                            </div>
+                            <div class="profile-text-right">
+                               Halo, kenalin ini Uta, manusia favorit aku. Dia suka warna ungu, suka aku, sukak ff, apalagi suka mie ayam...
+                            </div>
+                        </div>
+                        <div class="profile-text-full">
+                           Dia tengil, usil, nyebelin, tapi itu yang bikin aku makin nambah rasa sayang aku. Dia sabar, kalu ditanya level nya berapa, kayaknya level dia udah tingkat dewa ngadepin mood aku yang suka naik turun. Kalau ditanya tentang Uta, aku bisa certain banyak, tapi intinya: dia orang yang aku lihat, aku banggakan, dan aku cinta banget. Jadi ya... itu dia Uta versi aku.
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="action-btn" onclick="showScreen('about-aca')">BACK</button>
+            </div>
+
+            <!-- ========== GALLERY ========== -->
+            <div id="gallery" class="screen">
+                <div class="screen-title">Our Gallery</div>
+                
+                <div class="gallery-back">
+                    <a href="#" onclick="showScreen('menu'); return false;">×</a>
+                </div>
+
+                <div class="gallery-container">
+                    
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">FIRST MEET</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/firstmeet1.jpeg" alt="First Meet 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/firstmeet2.jpeg" alt="First Meet 2">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/firstmeet3.jpeg" alt="First Meet 3">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Pertemuan pertama kita masih sedikit canggung dan malu-malu, tapi justru itu yang bikin semuanya jadi spesial. Kita ngobrolin hal-hal random supaya kita ngga mati topik.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">SECOND MEET</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/secondmeet1.jpeg" alt="Second Meet 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/secondmeet2.jpeg" alt="Second Meet 2">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/secondmeet4.jpeg" alt="Second Meet 3">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Pertemuan kedua kita masih tanpa status apa-apa, tapi rasanya udah mulai nyaman. Obrolan mengalir tanpa perlu mikirin topik, semuanya muncul sendiri. Kita sering ketawa, dan tanpa sadar mulai terbiasa nyari satu sama lain.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">THIRD MEET</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/3meet1.jpeg" alt="Third Meet 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/3meet2.png" alt="Third Meet 2">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/3meet3.jpeg" alt="Third Meet 3">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Foto ini diambil pas kita sama-sama santai. Cuma momen sederhana yang nunjukin betapa nyamannya kita kalau bareng.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">GRADUATION</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/lulus.jpeg" alt="Graduation">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Hari kelulusan kamu, aku ikut bangga banget. It was such a special moment, and I'm happy I got to be there with you. First time meeting your parents juga bikin aku seneng banget. Mereka ramah, and it made me feel even closer to you. It really felt like a meaningful day for both of us.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">PLAYSTATION DATE</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/ps.jpeg" alt="PlayStation">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Ini pertama kalinya kita main PlayStation berdua, dan aku happy banget. Momentnya sederhana, tapi seru dan bikin aku ngerasa makin dekat sama kamu. It was such a fun little memory for us.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">OFFICIAL</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/jadian.jpeg" alt="Official">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Ngga nyangka kalau kamu nembak aku di hari itu. Aku masih inget gimana deg-degannya, gimana aku senyum sendiri karena masih ngga percaya. It was a simple moment, but it meant so much to me.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">MOMENT</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/jalan1.jpeg" alt="Moment 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/jalan2.jpeg" alt="Moment 2">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Masih di waktu santai, aku sama kamu jalan-jalan sambil makan di pedagang kaki lima. The vibe was so calm and cozy. Cuma kita berdua menikmati malam, ngobrol, dan makan sederhana tapi enak. It felt really peaceful being there with you.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">PUNCAK DATE</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/puncak.jpeg" alt="Puncak">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Kita jalan-jalan ke Puncak, nikmatin udara dingin dan suasana yang tenang. Semuanya jadi happy banget karena kita bareng.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">CAMPUS</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/almet1.jpeg" alt="Campus 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/almet2.jpeg" alt="Campus 2">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/almet3.jpeg" alt="Campus 3">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/almet4.jpeg" alt="Campus 4">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Wish list aku itu potobox almet bareng kamu, dan ngga nyangka kamu akhirnya bisa dapetin almet itu. I'm really, really proud of you. Rasanya happy banget bisa liat kamu berhasil dan wujudin hal kecil yang aku pengen bareng kamu.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">STUDY DATE</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/study1.jpeg" alt="Study 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/study2.jpeg" alt="Study 2">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/pap1.jpeg" alt="Study 3">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Nggak ada kata nggak bisa ketemu karena sibuk. Kita tetap sempatin waktu buat belajar dan nugas bareng. Walaupun capek, rasanya lebih ringan karena kita ngejalaninnya bareng-bareng.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">MEET AGAIN</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/poto2.jpeg" alt="Meet Again 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/poto3.jpeg" alt="Meet Again 2">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Pulang kampus, kita sempetin photobox biar nambah momen. It's a small thing, but it always makes me happy, karena setiap fotonya jadi memori kecil buat kita.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">ANAMI</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/anami1.jpeg" alt="Anami 1">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/anami2.jpeg" alt="Anami 2">
+                            </div>
+                            <div class="gallery-card-image">
+                                <img src="images/anami3.jpeg" alt="Anami 3">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            ANAMI, tempat kita first time ketemu, dan kamu ajak aku ke sini lagi buat nginget kenangan itu. Sejujurnya, aku happy banget. Rasanya terharu aja, balik ke tempat yang jadi awal semuanya.
+                        </div>
+                    </div>
+
+                    <div class="gallery-card">
+                        <div class="gallery-card-header">
+                            <span class="gallery-card-title">FLOWERS</span>
+                        </div>
+                        <div class="gallery-card-images">
+                            <div class="gallery-card-image">
+                                <img src="images/bunga.jpeg" alt="Flowers">
+                            </div>
+                        </div>
+                        <div class="gallery-card-text">
+                            Kamu selalu ngusahain semuanya, dan momen ini nunjukin gimana kamu bisa bikin aku happy lagi dengan hal-hal kecil kayak gini. It may be simple, but it means a lot to me.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- ========== MESSAGE ========== -->
+            <div id="message" class="screen">
+                <div class="screen-title">A Little Message</div>
+                <div class="message-content">
+                    <div class="message-text">
+                        <h2>Thank You!</h2>
+                        <p>Hai, aku buat ini karena mau mengapresiasi pacar aku yang udah sabar banget sama sikap aku. Aku cuma pengen dia tau kalau aku bener-bener bersyukur punya dia di hidup aku. Dia selalu berusaha buat ada. Walaupun kadang aku suka tiba-tiba ngambek, dia berusaha buat nurunin ego, dan ngertiin aku tanpa protes. Kadang dia cape, tapi dia masih terus berusaha.</p>
+                        <p>Lewat halaman ini, aku cuma mau bilang kalau semua usaha, perhatian, dan kesabaran dia berarti buat aku. Aku ngga pinter buat nyampein perasaan aku lewat lisan, tapi aku selalu lihat dan inget semua hal kecil yang dia lakukuin buat aku. Semoga tulisan kecil ini sedikit nunjukin betapa berharganya dia buat aku.</p>
+                    </div>
+                </div>
+                <button class="action-btn" onclick="showScreen('menu')">BACK</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = musicControl.querySelector('.music-icon');
+
+        bgMusic.volume = 0.7;
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function startApp() {
+            showScreen('menu');
+            bgMusic.play().then(() => {
+                musicControl.classList.add('playing');
+                musicIcon.textContent = '🎵';
+            }).catch(err => {
+                console.log('Autoplay prevented:', err);
+                musicIcon.textContent = '🔇';
+            });
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            bgMusic.play().then(() => {
+                musicControl.classList.add('playing');
+                musicIcon.textContent = '🎵';
+            }).catch(err => {
+                musicIcon.textContent = '🔇';
+            });
+        });
+
+        musicControl.addEventListener('click', () => {
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    musicControl.classList.add('playing');
+                    musicIcon.textContent = '🎵';
+                }).catch(err => {
+                    alert('⚠️ Tidak bisa memutar musik! Pastikan file "sempurna.mp3" ada di folder yang sama.');
+                });
+            } else {
+                bgMusic.pause();
+                musicControl.classList.remove('playing');
+                musicIcon.textContent = '🔇';
+            }
+        });
+
+        bgMusic.addEventListener('error', () => {
+            musicIcon.textContent = '❌';
+            musicControl.style.background = 'rgba(200, 50, 50, 0.9)';
+        });
+    </script>
+</body>
+</html>
